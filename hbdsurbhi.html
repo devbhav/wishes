@@ -321,6 +321,52 @@
         }
         
         /* Responsive adjustments */
+       .image-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid rgba(255, 107, 147, 0.2);
+    box-shadow: 0 5px 15px rgba(255, 107, 147, 0.2);
+    animation: float 4s ease-in-out infinite;
+}
+
+.birthday-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.image-container:hover .birthday-image {
+    transform: scale(1.05);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(255, 107, 147, 0.7), transparent);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-container:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-overlay i {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.8rem;
