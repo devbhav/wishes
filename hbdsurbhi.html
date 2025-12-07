@@ -450,16 +450,43 @@
             <span>Wishing you joy!</span>
         </div>
     </div>
-    
+    <div class="scrollable-message">
     <div class="birthday-message">
         <p>On this special day, I wanted to send you the warmest wishes. May your life be filled with joy, laughter, and beautiful moments that become cherished memories.</p>
         <p>I know, you are evolving. I made a mistake and I am really sorry. Hope you understand me. Yeah, you are an ambivert and that's really nice, be you 🤗.</p>
                 <p>Wishing you a day as amazing as you are! Again a Happy Birthday!!</p>
-    </div>
-    <div class="signature">With affection By Bhavya </div>
+        </div>
+        <div class="signature">With affection By Bhavya </div>
+            </div>
         </div>
     </div>
+/* Add these CSS styles */
+.scrollable-message {
+    max-height: 40vh; /* Adjust as needed */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 5px; /* Space for scrollbar */
+}
 
+/* Style the scrollbar */
+.scrollable-message::-webkit-scrollbar {
+    width: 4px;
+}
+
+.scrollable-message::-webkit-scrollbar-track {
+    background: rgba(255, 107, 147, 0.1);
+    border-radius: 10px;
+}
+
+.scrollable-message::-webkit-scrollbar-thumb {
+    background: rgba(255, 107, 147, 0.3);
+    border-radius: 10px;
+}
+
+.scrollable-message::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 107, 147, 0.5);
+}
+    
     <script>
         // Create floating hearts background
         const heartsContainer = document.getElementById('heartsContainer');
@@ -582,5 +609,109 @@
             }
         });
     </script>
+    <script>
+    // Advanced DevTools detection
+    let devToolsOpen = false;
+    
+    // Method 1: Check for window resize difference
+    function detectDevTools() {
+        const threshold = 160; // DevTools adds at least 160px
+        
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+        
+        if (widthThreshold || heightThreshold) {
+            if (!devToolsOpen) {
+                devToolsOpen = true;
+                showPersistentWarning();
+            }
+        } else {
+            devToolsOpen = false;
+        }
+    }
+    
+    // Check periodically
+    setInterval(detectDevTools, 500);
+    
+    // Method 2: Debugger statement detection
+    const debuggerFunction = function() {};
+    debuggerFunction.toString = function() {
+        showWarning();
+        return '';
+    };
+    
+    setInterval(() => {
+        console.log(debuggerFunction);
+    }, 1000);
+    
+    // Method 3: Detect console clear
+    const originalConsoleClear = console.clear;
+    console.clear = function() {
+        showWarning();
+        return originalConsoleClear.apply(this, arguments);
+    };
+    
+    // Show persistent warning that doesn't go away until DevTools is closed
+    function showPersistentWarning() {
+        // Remove existing warning if any
+        const existingWarning = document.getElementById('devToolsWarning');
+        if (existingWarning) return;
+        
+        const warning = document.createElement('div');
+        warning.id = 'devToolsWarning';
+        warning.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(255, 107, 147, 0.95);
+                color: white;
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 999999;
+                font-family: 'Quicksand', sans-serif;
+                text-align: center;
+                max-width: 90%;
+                width: 400px;
+                backdrop-filter: blur(10px);
+            ">
+                <i class="fas fa-lock" style="font-size: 40px; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Developer Tools Detected</h3>
+                <p style="margin-bottom: 20px; font-size: 14px;">
+                    Please close Developer Tools to fully enjoy this birthday surprise!
+                </p>
+                <div style="font-size: 12px; opacity: 0.8;">
+                    <i class="fas fa-heart"></i> This is a special gift - let the magic unfold naturally!
+                </div>
+            </div>
+        `;
+        
+        // Add Font Awesome if not already loaded
+        if (!document.querySelector('link[href*="font-awesome"]')) {
+            const faLink = document.createElement('link');
+            faLink.rel = 'stylesheet';
+            faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            document.head.appendChild(faLink);
+        }
+        
+        document.body.appendChild(warning);
+        
+        // Remove warning when DevTools is closed
+        const checkInterval = setInterval(() => {
+            detectDevTools();
+            if (!devToolsOpen) {
+                if (document.body.contains(warning)) {
+                    document.body.removeChild(warning);
+                }
+                clearInterval(checkInterval);
+            }
+        }, 1000);
+    }
+    
+    // Initial detection on load
+    window.addEventListener('load', detectDevTools);
+</script>
 </body>
 </html>
