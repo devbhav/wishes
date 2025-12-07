@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#fff6f8; /* soft pink */
+      --bg2:#fffaf4; /* cream */
+      --accent:#ff6b9a; /* passionate pink */
+      --accent-2:#ff9bb3;
+      --muted:#6b6b6b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial;background:linear-gradient(135deg,var(--bg1),var(--bg2));}
+    .stage{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:36px;gap:20px;position:relative;overflow:hidden
+    }
+
+    /* Cake area */
+    .cake-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+
+    .cake-svg{width:280px;height:220px;display:block}
+
+    .button{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:14px 22px;border-radius:40px;font-weight:600;color:white;cursor:pointer;box-shadow:0 8px 20px rgba(255,107,154,0.18);transform:translateZ(0);
+    }
+    .button:disabled{opacity:.6;cursor:default}
+
+    /* flame */
+    .flame{transform-origin:center bottom;filter:drop-shadow(0 5px 8px rgba(255,140,170,.25));}
+    .flame.flicker{animation:flick 500ms infinite}
+    @keyframes flick{0%{transform:scaleY(1)}50%{transform:scaleY(.92)}100%{transform:scaleY(1)} }
+
+    /* smoke */
+    .smoke{position:absolute;width:6px;height:6px;border-radius:50%;background:rgba(150,120,160,.25);top:45%;left:50%;opacity:0;pointer-events:none}
+
+    /* small effect when cake 'pops' */
+    .cake-pop{animation:pop .6s cubic-bezier(.2,.9,.2,1)}
+    @keyframes pop{0%{transform:scale(1) translateY(0)}40%{transform:scale(1.08) translateY(-6px)}100%{transform:scale(1) translateY(0)} }
+
+    /* confetti/hearts */
+    .particle{position:absolute;pointer-events:none;font-size:18px;opacity:0;transform:translateY(0) rotate(0);}
+    .particle.show{animation:flyUp 1400ms forwards cubic-bezier(.2,.8,.3,1)}
+    @keyframes flyUp{0%{opacity:1;transform:translateY(0) scale(.6) rotate(0)}60%{transform:translateY(-160px) scale(1.05) rotate(120deg)}100%{opacity:0;transform:translateY(-320px) scale(.6) rotate(240deg)} }
+
+    /* curtains */
+    .curtain{position:absolute;top:-100%;left:0;width:50%;height:120%;background:linear-gradient(180deg,var(--accent),#ff3f7a);box-shadow:inset -6px 0 50px rgba(0,0,0,.08);transform-origin:top;z-index:40}
+    .curtain.right{left:50%;background:linear-gradient(180deg,#ff9bb3,var(--accent-2));box-shadow:inset 6px 0 50px rgba(0,0,0,.06)}
+    .curtain.fall{animation:fallDown .8s forwards cubic-bezier(.2,.9,.2,1)}
+    @keyframes fallDown{to{top:0}} 
+    .curtain.openLeft{animation:openLeft .8s .8s forwards cubic-bezier(.2,.9,.2,1)}
+    .curtain.right.openRight{animation:openRight .8s .8s forwards cubic-bezier(.2,.9,.2,1)}
+    @keyframes openLeft{to{left:-120%}} @keyframes openRight{to{left:120%}}
+
+    /* final message */
+    .message-wrap{position:relative;z-index:30;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+    .message-wrap.show{opacity:1;transform:translateY(0)}
+    .msg-card{background:rgba(255,255,255,.9);padding:28px;border-radius:18px;box-shadow:0 10px 40px rgba(120,60,90,.08);text-align:center;max-width:720px}
+    .msg-title{font-family:'Great Vibes',cursive;font-size:44px;color:var(--accent);margin:0}
+    .msg-sub{font-size:18px;color:var(--muted);margin-top:8px}
+    .msg-heart{font-size:22px;color:var(--accent);display:inline-block;margin-left:8px}
+
+    /* small floating hearts in background */
+    .floating-heart{position:absolute;font-size:32px;opacity:.12;animation:float 6s linear infinite}
+    .h1{left:8%;top:14%;animation-duration:8s} .h2{right:6%;top:26%;animation-duration:7s} .h3{left:16%;bottom:6%;animation-duration:9s}
+    @keyframes float{0%{transform:translateY(0) scale(.9)}50%{transform:translateY(-20px) scale(1)}100%{transform:translateY(0) scale(.9)}}
+
+    /* responsive */
+    @media(min-width:900px){.cake-svg{width:360px;height:260px}}
+    @media(max-width:420px){.msg-title{font-size:34px}.cake-svg{width:220px;height:170px}}
+  </style>
+</head>
+<body>
+  <div class="stage">
+
+    <!-- floating decorative hearts -->
+    <div class="floating-heart h1">❤</div>
+    <div class="floating-heart h2">❤</div>
+    <div class="floating-heart h3">❤</div>
+
+    <div class="cake-wrap" id="cakeWrap">
+      <!-- Vector cake with candle -->
+      <svg class="cake-svg" viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- plate -->
+        <ellipse cx="180" cy="220" rx="130" ry="18" fill="#fff0f2" />
+
+        <!-- cake body -->
+        <g id="cakeBody" transform="translate(0,20)">
+          <rect x="60" y="80" rx="18" width="240" height="120" fill="#fff" stroke="#ffd5df" stroke-width="6"/>
+          <!-- frosting -->
+          <path d="M60 100 q40 -30 120 0 t120 0 v20 h-240 z" fill="#ffeef3"/>
+          <!-- sprinkles -->
+          <g fill="#ff7fa1">
+            <rect x="100" y="130" width="6" height="12" rx="2"/>
+            <rect x="150" y="110" width="6" height="12" rx="2" transform="rotate(20 153 116)"/>
+            <rect x="200" y="140" width="6" height="12" rx="2" transform="rotate(-30 203 146)"/>
+          </g>
+        </g>
+
+        <!-- candle -->
+        <g id="candle" transform="translate(170,20)">
+          <rect x="-8" y="0" width="16" height="60" rx="4" fill="#fff" stroke="#ffd6e2" stroke-width="3"/>
+          <rect x="-8" y="0" width="16" height="10" rx="3" fill="#ff6b9a" opacity=".15"/>
+          <g class="flame flicker" id="flame">
+            <ellipse cx="0" cy="-6" rx="8" ry="12" fill="#ffd166"/>
+            <ellipse cx="0" cy="-6" rx="4" ry="6" fill="#ff7a8b"/>
+          </g>
+        </g>
+      </svg>
+
+      <button class="button" id="blowBtn">Blow the candle</button>
+    </div>
+
+    <!-- smoke placeholder -->
+    <div id="smokeHolder" class="smoke"></div>
+
+    <!-- particles container -->
+    <div id="particles"></div>
+
+    <!-- curtains (two halves) -->
+    <div class="curtain left" id="curtainLeft"></div>
+    <div class="curtain right" id="curtainRight"></div>
+
+    <!-- final message (hidden until curtains open) -->
+    <div class="message-wrap" id="messageWrap">
+      <div class="msg-card">
+        <h1 class="msg-title" id="msgTitle">Happy Birthday!</h1>
+        <p class="msg-sub" id="msgSub">Wishing you a day full of love, laughter and gentle surprises <span class="msg-heart">❤</span></p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ---------- USER EDITABLE TEXT ----------
+    const recipientName = "(Her Name)"; // put her name here
+    const birthdayMessage = "Wishing you a day full of love, laughter and gentle surprises.";
+    // ----------------------------------------
+
+    // set texts
+    document.getElementById('msgTitle').textContent = `Happy Birthday, ${recipientName}!`;
+    document.getElementById('msgSub').innerHTML = `${birthdayMessage} <span class="msg-heart">❤</span>`;
+
+    const blowBtn = document.getElementById('blowBtn');
+    const flame = document.getElementById('flame');
+    const cakeWrap = document.getElementById('cakeWrap');
+    const particles = document.getElementById('particles');
+    const smokeHolder = document.getElementById('smokeHolder');
+    const curtainLeft = document.getElementById('curtainLeft');
+    const curtainRight = document.getElementById('curtainRight');
+    const messageWrap = document.getElementById('messageWrap');
+
+    function makeParticle(x,y,emoji,delay){
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.textContent = emoji;
+      p.style.left = x + 'px';
+      p.style.top = y + 'px';
+      p.style.fontSize = (12 + Math.random()*18) + 'px';
+      p.style.transform = `translateY(0) rotate(${Math.random()*120}deg)`;
+      particles.appendChild(p);
+      // start with slight delay
+      setTimeout(()=>p.classList.add('show'), delay || 10);
+      // remove after animation
+      setTimeout(()=>p.remove(),1800);
+    }
+
+    function spawnConfetti(centerX, centerY){
+      const emojis = ['💖','❤','✨','🎉','🥳','🌸'];
+      for(let i=0;i<24;i++){
+        const angle = Math.random()*Math.PI*2;
+        const r = 20 + Math.random()*80;
+        const x = centerX + Math.cos(angle)*r + (Math.random()*40-20);
+        const y = centerY + Math.sin(angle)*r + (Math.random()*40-20);
+        makeParticle(x,y, emojis[Math.floor(Math.random()*emojis.length)], Math.random()*120);
+      }
+    }
+
+    function createSmoke(x,y){
+      const s = document.createElement('div');
+      s.className = 'smoke';
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      s.style.width = '10px';
+      s.style.height = '10px';
+      s.style.borderRadius = '50%';
+      s.style.background = 'radial-gradient(rgba(150,120,160,.18), rgba(150,120,160,.07))';
+      s.style.opacity = 0.9;
+      s.style.pointerEvents='none';
+      document.body.appendChild(s);
+      // animate
+      s.animate([
+        {transform:'translateY(0) scale(.6)', opacity:1},
+        {transform:'translateY(-80px) scale(1.6)', opacity:0}
+      ],{duration:1200, easing:'cubic-bezier(.2,.8,.2,1)'});
+      setTimeout(()=>s.remove(),1200);
+    }
+
+    blowBtn.addEventListener('click', async function(){
+      blowBtn.disabled = true;
+      // extinguish flame
+      flame.style.transition = 'transform .4s ease, opacity .6s ease';
+      flame.style.opacity = 0;
+      flame.classList.remove('flicker');
+      // smoke
+      const rect = flame.getBoundingClientRect();
+      createSmoke(rect.left + rect.width/2, rect.top + 8);
+
+      // subtle cake pop
+      cakeWrap.classList.add('cake-pop');
+      spawnConfetti(window.innerWidth/2, window.innerHeight/2 + 20);
+
+      // more hearts
+      setTimeout(()=>{
+        for(let i=0;i<12;i++){
+          const ex = window.innerWidth/2 + (Math.random()*200-100);
+          const ey = window.innerHeight/2 + (Math.random()*60-20);
+          makeParticle(ex, ey, '❤', i*40);
+        }
+      },200);
+
+      // after a beat, curtains fall then open
+      setTimeout(()=>{
+        curtainLeft.classList.add('fall');
+        curtainRight.classList.add('fall');
+      },800);
+
+      // after fall, open sides
+      setTimeout(()=>{
+        curtainLeft.classList.add('openLeft');
+        curtainRight.classList.add('openRight');
+      },1700);
+
+      // show message when curtains open
+      setTimeout(()=>{
+        messageWrap.classList.add('show');
+        // a gentle scale effect
+        document.querySelector('.msg-card').animate([
+          {transform:'scale(.98)', opacity:0},
+          {transform:'scale(1)', opacity:1}
+        ],{duration:600, easing:'cubic-bezier(.2,.9,.2,1)'});
+      },2200);
+
+    });
+  </script>
+</body>
+</html>
