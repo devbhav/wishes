@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Moment of Passion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Star Background -->
+    <div class="star-background"></div>
+    
+    <!-- Main Presentation Container -->
+    <div class="presentation-container">
+        <!-- Main Title with Heartbeat Animation -->
+        <h1 class="main-title">Love Speaks</h1>
+        
+        <!-- Subtitle with Delayed Fade-in -->
+        <p class="subtitle">Where hearts meet, magic begins</p>
+        
+        <!-- Call-to-Action Button -->
+        <button class="action-button">Enter the Experience</button>
+    </div>
+
+    <script>
+        // Add interactivity to the button
+        const button = document.querySelector('.action-button');
+        
+        button.addEventListener('click', () => {
+            // Create a romantic ripple effect on click
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'translateY(-5px) scale(1.05)';
+            }, 100);
+            
+            // You can navigate to another page or trigger an action here
+            setTimeout(() => {
+                alert('✨ Welcome to a journey of passion and elegance! ✨');
+                // window.location.href = 'next-page.html'; // Uncomment to navigate
+            }, 300);
+        });
+    </script>
+</body>
+</html>
