@@ -1,43 +1,629 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Moment of Passion</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Portfolio - Creative Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url("https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf") format('truetype');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf") format('truetype');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf") format('truetype');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url("https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf") format('truetype');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf") format('truetype');
+}
+
+:root {
+	--font-main: 'Inter', sans-serif;
+	--card-radius: 20px;
+	--ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+html[data-theme="dark"] {
+	--bg-color: #11101d;
+	--text-primary: #e0e0e9;
+	--text-secondary: #a3a3c2;
+	--highlight-color: hsl(190, 100%, 70%);
+	--glass-bg: rgba(255, 255, 255, 0.05);
+	--glass-border: rgba(255, 255, 255, 0.1);
+	--shadow-color: rgba(0, 0, 0, 0.2);
+	--orb-color-1: hsl(260, 100%, 55%);
+	--orb-color-2: hsl(190, 100%, 50%);
+	--orb-color-3: hsl(320, 100%, 55%);
+}
+
+html[data-theme="light"] {
+	--bg-color: #f4f7fa;
+	--text-primary: #1a202c;
+	--text-secondary: #4a5568;
+	--highlight-color: hsl(260, 85%, 65%);
+	--glass-bg: rgba(255, 255, 255, 0.6);
+	--glass-border: rgba(0, 0, 0, 0.1);
+	--shadow-color: rgba(100, 100, 150, 0.15);
+	--orb-color-1: hsl(220, 100%, 80%);
+	--orb-color-2: hsl(300, 100%, 85%);
+	--orb-color-3: hsl(40, 100%, 75%);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: var(--font-main);
+	background-color: var(--bg-color);
+	color: var(--text-primary);
+	line-height: 1.7;
+	overflow-x: hidden;
+	transition: background-color 0.4s ease, color 0.4s ease;
+	scroll-behavior: smooth;
+}
+
+h3 {
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-bottom: 1.5rem;
+	color: var(--text-primary);
+	border-bottom: 1px solid var(--glass-border);
+	padding-bottom: 0.75rem;
+}
+
+a {
+	color: var(--highlight-color);
+	text-decoration: none;
+}
+
+.highlight {
+	color: var(--highlight-color);
+	font-weight: 600;
+}
+
+@keyframes load-in {
+	from {
+		opacity: 0;
+		transform: translateY(20px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes orb-animate-1 {
+	0%, 100% { transform: translate(-20vw, -20vh) scale(0.8); }
+	50% { transform: translate(20vw, 20vh) scale(1.2); }
+}
+
+@keyframes orb-animate-2 {
+	0%, 100% { transform: translate(30vw, 30vh) scale(0.7); }
+	50% { transform: translate(-30vw, -30vh) scale(1); }
+}
+
+@keyframes orb-animate-3 {
+	0%, 100% { transform: translate(-10vw, 25vh) scale(0.9); }
+	50% { transform: translate(10vw, -25vh) scale(0.7); }
+}
+
+.background-orbs {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	z-index: -1;
+}
+
+.orb {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(150px);
+	opacity: 0.4;
+	width: 50vmax;
+	height: 50vmax;
+	top: -25vmax;
+	left: -25vmax;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+	animation-direction: alternate;
+}
+
+.orb:nth-child(1) {
+	background: var(--orb-color-1);
+	animation-name: orb-animate-1;
+	animation-duration: 25s;
+}
+
+.orb:nth-child(2) {
+	background: var(--orb-color-2);
+	animation-name: orb-animate-2;
+	animation-duration: 30s;
+}
+
+.orb:nth-child(3) {
+	background: var(--orb-color-3);
+	animation-name: orb-animate-3;
+	animation-duration: 22s;
+	opacity: 0.3;
+}
+
+.sticky-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	padding: 1rem 5%;
+	background: var(--glass-bg);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border-bottom: 1px solid var(--glass-border);
+}
+
+.header-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header-title {
+	font-size: 1.25rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.theme-button {
+	background-color: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	color: var(--text-secondary);
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	cursor: pointer;
+	font-size: 1.1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all 0.3s ease;
+}
+
+.theme-button:hover {
+	background-color: var(--glass-border);
+	color: var(--text-primary);
+	transform: scale(1.1);
+}
+
+html[data-theme="dark"] .fa-sun { display: block; }
+html[data-theme="dark"] .fa-moon { display: none; }
+html[data-theme="light"] .fa-sun { display: none; }
+html[data-theme="light"] .fa-moon { display: block; }
+
+.portfolio-container {
+	max-width: 800px;
+	margin: 2.5rem auto;
+	padding: 0 20px;
+	display: grid;
+	gap: 2rem;
+}
+
+.glass-card {
+	background: var(--glass-bg);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid var(--glass-border);
+	border-radius: var(--card-radius);
+	padding: 2rem;
+	box-shadow: 0 8px 32px 0 var(--shadow-color);
+	animation: load-in 0.7s var(--ease-out-quart) both;
+}
+
+.profile-card { text-align: center; animation-delay: 0.1s; }
+#journey { animation-delay: 0.2s; }
+#projects { animation-delay: 0.3s; }
+#achievements { animation-delay: 0.4s; }
+
+.profile-img {
+	width: 130px;
+	height: 130px;
+	border-radius: 50%;
+	border: 3px solid var(--glass-border);
+	margin: 0 auto 1.5rem;
+	box-shadow: 0 0 20px var(--shadow-color), 0 0 30px -10px var(--highlight-color);
+	object-fit: cover;
+}
+
+.profile-name {
+	font-size: 2rem;
+	font-weight: 700;
+	margin-bottom: 0.5rem;
+}
+
+.profile-bio {
+	font-size: 1.1rem;
+	color: var(--text-secondary);
+	max-width: 500px;
+	margin: 0 auto 1rem;
+}
+
+.typing-container {
+	font-size: 1.1rem;
+	color: var(--text-secondary);
+	min-height: 1.7em;
+}
+
+#typing-text::after {
+	content: '|';
+	animation: blink 0.7s infinite;
+	font-weight: 200;
+}
+
+@keyframes blink {
+	50% { opacity: 0; }
+}
+
+.timeline {
+	position: relative;
+	padding-left: 20px;
+}
+
+.timeline::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 10px;
+	bottom: 10px;
+	width: 2px;
+	background: var(--glass-border);
+	border-radius: 2px;
+}
+
+.timeline-item {
+	position: relative;
+	padding-left: 2.5rem;
+	margin-bottom: 2rem;
+}
+
+.timeline-dot {
+	position: absolute;
+	left: -9px;
+	top: 5px;
+	width: 20px;
+	height: 20px;
+	background-color: var(--bg-color);
+	border: 3px solid var(--highlight-color);
+	border-radius: 50%;
+	z-index: 1;
+}
+
+.timeline-date {
+	font-weight: 600;
+	color: var(--text-secondary);
+	font-size: 0.9rem;
+	margin-bottom: 0.25rem;
+}
+
+.timeline-content h4 {
+	font-weight: 600;
+	font-size: 1.1rem;
+	color: var(--text-primary);
+	margin-bottom: 0.5rem;
+}
+
+.timeline-content p {
+	color: var(--text-secondary);
+}
+
+.projects-list {
+	list-style: none;
+	display: grid;
+	gap: 0.75rem;
+}
+
+.projects-list li a {
+	display: flex;
+	align-items: center;
+	padding: 0.75rem 1rem;
+	text-decoration: none;
+	color: var(--text-primary);
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	border-radius: 12px;
+	transition: all 0.3s ease;
+}
+
+.projects-list li a:hover {
+	background: var(--glass-border);
+	transform: translateY(-3px);
+	box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.projects-list .icon {
+	margin-right: 1rem;
+	color: var(--highlight-color);
+	width: 20px;
+	text-align: center;
+}
+
+.projects-list span {
+	flex-grow: 1;
+	font-weight: 500;
+}
+
+.projects-list .link-icon {
+	margin-left: 1rem;
+	color: var(--text-secondary);
+	opacity: 0.7;
+	transition: transform 0.3s ease;
+}
+
+.projects-list li a:hover .link-icon {
+	transform: translate(3px, -3px);
+	opacity: 1;
+}
+
+.achievements-list {
+	list-style: none;
+	display: grid;
+	gap: 1rem;
+}
+
+.achievements-list li {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	color: var(--text-secondary);
+}
+
+.achievements-list .icon {
+	color: var(--highlight-color);
+	font-size: 1.2rem;
+}
+
+.site-footer {
+	text-align: center;
+	padding: 3rem 1rem 2rem;
+	color: var(--text-secondary);
+	font-size: 0.9rem;
+	border-top: 1px solid var(--glass-border);
+	margin-top: 2rem;
+}
+
+.social-links a {
+	color: var(--text-secondary);
+	font-size: 1.5rem;
+	margin: 0 0.75rem;
+	transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+	color: var(--highlight-color);
+	transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+	.portfolio-container {
+		margin-top: 1.5rem;
+		gap: 1.5rem;
+	}
+	.glass-card { padding: 1.5rem; }
+	.profile-name { font-size: 1.75rem; }
+}
+    </style>
 </head>
 <body>
-    <!-- Animated Star Background -->
-    <div class="star-background"></div>
-    
-    <!-- Main Presentation Container -->
-    <div class="presentation-container">
-        <!-- Main Title with Heartbeat Animation -->
-        <h1 class="main-title">Love Speaks</h1>
-        
-        <!-- Subtitle with Delayed Fade-in -->
-        <p class="subtitle">Where hearts meet, magic begins</p>
-        
-        <!-- Call-to-Action Button -->
-        <button class="action-button">Enter the Experience</button>
+    <div class="background-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
     </div>
 
+    <header class="sticky-header">
+        <div class="header-content">
+            <h1 class="header-title">My Portfolio</h1>
+            <button class="theme-button" id="themeToggle">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="portfolio-container">
+        <section class="glass-card profile-card">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Profile" class="profile-img">
+            <h1 class="profile-name">Alex Johnson</h1>
+            <p class="profile-bio">Creative developer passionate about building beautiful web experiences</p>
+            <div class="typing-container">
+                <span id="typing-text"></span>
+            </div>
+        </section>
+
+        <section class="glass-card" id="journey">
+            <h3>Learning Journey</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023 - Present</div>
+                    <div class="timeline-content">
+                        <h4>Full-Stack Development</h4>
+                        <p>Building modern web applications with React, Node.js, and cloud technologies</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2022 - 2023</div>
+                    <div class="timeline-content">
+                        <h4>Frontend Specialization</h4>
+                        <p>Mastered modern CSS, JavaScript frameworks, and responsive design principles</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2021 - 2022</div>
+                    <div class="timeline-content">
+                        <h4>Web Development Basics</h4>
+                        <p>Started journey with HTML, CSS, and JavaScript fundamentals</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card" id="projects">
+            <h3>Featured Projects</h3>
+            <ul class="projects-list">
+                <li>
+                    <a href="#" onclick="return false;">
+                        <i class="fas fa-rocket icon"></i>
+                        <span>Portfolio Website</span>
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="return false;">
+                        <i class="fas fa-shopping-cart icon"></i>
+                        <span>E-commerce Platform</span>
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="return false;">
+                        <i class="fas fa-tasks icon"></i>
+                        <span>Task Management App</span>
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="return false;">
+                        <i class="fas fa-chart-line icon"></i>
+                        <span>Analytics Dashboard</span>
+                        <i class="fas fa-external-link-alt link-icon"></i>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="glass-card" id="achievements">
+            <h3>Achievements</h3>
+            <ul class="achievements-list">
+                <li>
+                    <i class="fas fa-trophy icon"></i>
+                    <span>Completed 50+ web projects</span>
+                </li>
+                <li>
+                    <i class="fas fa-certificate icon"></i>
+                    <span>Certified in React & Node.js</span>
+                </li>
+                <li>
+                    <i class="fas fa-users icon"></i>
+                    <span>Contributed to 10+ open-source projects</span>
+                </li>
+                <li>
+                    <i class="fas fa-star icon"></i>
+                    <span>5-star rated on freelance platforms</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="social-links">
+            <a href="#" onclick="return false;"><i class="fab fa-github"></i></a>
+            <a href="#" onclick="return false;"><i class="fab fa-linkedin"></i></a>
+            <a href="#" onclick="return false;"><i class="fab fa-twitter"></i></a>
+            <a href="#" onclick="return false;"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p style="margin-top: 1.5rem;">Made with <i class="fas fa-heart" style="color: #e25555;"></i> by Alex Johnson</p>
+    </footer>
+
     <script>
-        // Add interactivity to the button
-        const button = document.querySelector('.action-button');
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
         
-        button.addEventListener('click', () => {
-            // Create a romantic ripple effect on click
-            button.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                button.style.transform = 'translateY(-5px) scale(1.05)';
-            }, 100);
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+        });
+
+        // Typing Effect
+        const phrases = [
+            'Building the future, one line at a time',
+            'Turning ideas into reality',
+            'Crafting digital experiences',
+            'Passionate about clean code'
+        ];
+        
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 100;
+        const deletingSpeed = 50;
+        const pauseTime = 2000;
+        
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            const typingText = document.getElementById('typing-text');
             
-            // You can navigate to another page or trigger an action here
-            setTimeout(() => {
-                alert('✨ Welcome to a journey of passion and elegance! ✨');
-                // window.location.href = 'next-page.html'; // Uncomment to navigate
-            }, 300);
+            if (isDeleting) {
+                typingText.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                setTimeout(() => { isDeleting = true; }, pauseTime);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+            
+            const speed = isDeleting ? deletingSpeed : typingSpeed;
+            setTimeout(type, speed);
+        }
+        
+        // Start typing effect
+        setTimeout(type, 1000);
+
+        // Smooth scroll for header title
+        document.querySelector('.header-title').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
